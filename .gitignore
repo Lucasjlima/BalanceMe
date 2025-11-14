@@ -1,0 +1,91 @@
+# 🧱 Compilação e build
+/target/
+/build/
+/out/
+
+# 🔧 Configurações de IDEs
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# 🧰 Logs e temporários
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+
+# 🧑‍💻 Arquivos do sistema
+*.class
+*.jar
+*.war
+*.ear
+
+# 📦 Dependências locais (Maven/Gradle)
+.mvn/wrapper/maven-wrapper.jar
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# 🧬 Variáveis de ambiente / Configs sensíveis
+.env
+.env.*
+application-secrets.properties
+application-prod.properties
+application-prod.yml
+
+# Binarios
+/bin/
+
+#Lombok
+.lombok/
+
+#Cache Intellij
+out/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+
+
+
+# 🧪 Testes e relatórios
+/test-output/
+/surefire-reports/
+/jacoco-report/
+
+# 📁 Arquivos temporários do Spring Boot
+spring.log
+
+# 🔒 Credenciais e chaves
+*.keystore
+*.pem
+*.p12
+*.crt
+*.key
+
+# 🗂️ Arquivos de sistema operacional
+.DS_Store
+
+# 🐳 Docker
+*.pid
+logs/
+docker-compose.override.yml
+.env.local
+
+# =========================================
+# FIM DO .GITIGNORE
+# =========================================
