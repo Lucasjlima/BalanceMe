@@ -14,13 +14,12 @@ import java.time.LocalDateTime;
  * DTO for {@link Goal}
  */
 @Builder
-public record GoalsResponse(
+public record GoalResponse(
         Long id,
         User user,
         Category category,
         Frequency frequency,
         String unitMeasure,
-        Double currentValue,
         LocalDateTime createdAt,
         Boolean isActive,
         LocalDate startDate,

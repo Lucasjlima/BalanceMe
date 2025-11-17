@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 /**
  * DTO for {@link Goal}
  */
-public record GoalsRequest(
+public record GoalRequest(
         @NotNull
         User user,
         @NotNull(message = "Informe o tipo de categoria")
@@ -23,8 +23,6 @@ public record GoalsRequest(
         Frequency frequency,
         @NotBlank(message = "Informe uma unidade de medida")
         String unitMeasure,
-        @NotNull LocalDateTime createdAt,
-        Boolean isActive,
         @NotNull
         LocalDate startDate,
         LocalDate endDate
