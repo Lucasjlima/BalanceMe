@@ -1,14 +1,11 @@
 package br.com.fiap.balanceMe.user.dto.request;
 
-import br.com.fiap.balanceMe.goal.entity.Goals;
 import br.com.fiap.balanceMe.user.entity.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * DTO for {@link br.com.fiap.balanceMe.user.entity.User}
@@ -21,7 +18,6 @@ public record UserRequest(
         @NotBlank
         String timezone,
         @NotNull
-        Role role,
-        List<Goals> goals
+        Role role
 ) implements Serializable {
 }
