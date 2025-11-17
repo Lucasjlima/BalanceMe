@@ -18,7 +18,6 @@ public class UserMapper {
                 .createdAt(LocalDateTime.now())
                 .timezone(request.timezone())
                 .role(request.role())
-                .goals(request.goals())
                 .build();
 
 
@@ -28,7 +27,7 @@ public class UserMapper {
         return UserResponse
                 .builder()
                 .id(user.getId())
-                .username(user.getUsername())
+                .username(user.getUsername().toLowerCase())
                 .userEmail(user.getUserEmail())
                 .createdAt(user.getCreatedAt())
                 .isActive(user.getIsActive())
