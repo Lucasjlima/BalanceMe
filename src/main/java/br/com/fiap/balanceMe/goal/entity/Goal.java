@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "goals")
-public class Goals {
+public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "goal_id")
@@ -28,9 +28,11 @@ public class Goals {
     private User user;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Frequency frequency;
 
     @Column(name = "unit_measure", nullable = false)

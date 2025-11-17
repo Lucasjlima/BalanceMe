@@ -2,8 +2,8 @@ package br.com.fiap.balanceMe.goal.dto.response;
 
 import br.com.fiap.balanceMe.goal.entity.Category;
 import br.com.fiap.balanceMe.goal.entity.Frequency;
+import br.com.fiap.balanceMe.goal.entity.Goal;
 import br.com.fiap.balanceMe.user.entity.User;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 import java.io.Serializable;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
- * DTO for {@link br.com.fiap.balanceMe.goal.entity.Goals}
+ * DTO for {@link Goal}
  */
 @Builder
 public record GoalsResponse(
