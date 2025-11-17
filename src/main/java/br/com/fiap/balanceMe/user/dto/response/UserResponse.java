@@ -1,6 +1,6 @@
 package br.com.fiap.balanceMe.user.dto.response;
 
-import br.com.fiap.balanceMe.goal.entity.Goals;
+import br.com.fiap.balanceMe.goal.entity.Goal;
 import br.com.fiap.balanceMe.user.entity.Role;
 import lombok.Builder;
 
@@ -20,6 +20,6 @@ public record UserResponse(
         Boolean isActive,
         String timezone,
         Role role,
-        List<Goals> goals
+        List<Goal> goals
 ) implements Serializable {
 }
