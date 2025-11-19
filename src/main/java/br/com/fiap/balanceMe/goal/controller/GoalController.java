@@ -50,4 +50,10 @@ public class GoalController {
                 .map(goal -> ResponseEntity.ok(GoalMapper.toGoalUpdateResponse(goal)))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("{id}/delete")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
