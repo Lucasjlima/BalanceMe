@@ -2,6 +2,7 @@ package br.com.fiap.balanceMe.goal.service;
 
 import br.com.fiap.balanceMe.goal.dto.request.GoalUpdateRequest;
 import br.com.fiap.balanceMe.goal.entity.Goal;
+import br.com.fiap.balanceMe.goal.entity.Status;
 import br.com.fiap.balanceMe.goal.repositories.GoalsRepository;
 import br.com.fiap.balanceMe.user.entity.User;
 import br.com.fiap.balanceMe.user.repository.UserRepository;
@@ -28,6 +29,7 @@ public class GoalService {
     public Goal create(Goal goal) {
         User user = userRepository.getReferenceById(goal.getUser().getId());
         goal.setUser(user);
+        goal.setStatus(Status.ACTIVE);
         return repository.save(goal);
     }
 
@@ -37,6 +39,7 @@ public class GoalService {
         if (optGoal.isPresent()) {
             Goal goal = optGoal.get();
             goal.setIsActive(false);
+            goal.setStatus(Status.COMPLETED);
             goal.setCompletedAt(LocalDateTime.now());
             repository.save(goal);
             return Optional.of(goal);
@@ -58,6 +61,14 @@ public class GoalService {
                 goal.setFrequency(request.frequency());
             }
 
+            if(request.status() != null) {
+                if(request.status().equals(Status.CANCELLED)){
+                    goal.setStatus(Status.CANCELLED);
+                    goal.setIsActive(false);
+                }
+                goal.setStatus(request.status());
+            }
+
             if(request.unitMeasure() != null) {
                 goal.setUnitMeasure(request.unitMeasure());
             }
@@ -77,5 +88,17 @@ public class GoalService {
             return Optional.of(goal);
         }
         return Optional.empty();
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        Optional<Goal> optGoal = repository.findById(id);
+        if(optGoal.isPresent()) {
+            Goal goal = optGoal.get();
+            goal.setIsActive(false);
+            goal.setStatus(Status.CANCELLED);
+            goal.setEndDate(LocalDateTime.now().toLocalDate());
+            repository.save(goal);
+        }
     }
 }
