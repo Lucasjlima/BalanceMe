@@ -1,7 +1,9 @@
 package br.com.fiap.balanceMe.user.controller;
 
 import br.com.fiap.balanceMe.user.dto.request.UserRequest;
+import br.com.fiap.balanceMe.user.dto.request.UserUpdateRequest;
 import br.com.fiap.balanceMe.user.dto.response.UserResponse;
+import br.com.fiap.balanceMe.user.dto.response.UserUpdateResponse;
 import br.com.fiap.balanceMe.user.entity.User;
 import br.com.fiap.balanceMe.user.mapper.UserMapper;
 import br.com.fiap.balanceMe.user.service.UserService;
@@ -10,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +38,12 @@ public class UserController {
         User newUser = UserMapper.toUser(request);
         User savedUser = service.create(newUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toUserResponse(savedUser));
+    }
+
+    @PatchMapping("edit/{id}")
+    public ResponseEntity<UserUpdateResponse> editUser(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest request) {
+        return service.edit(request, id)
+                .map(user -> ResponseEntity.ok(UserMapper.toUserUpdateResponse(user)))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
