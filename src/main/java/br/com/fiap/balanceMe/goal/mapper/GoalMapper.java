@@ -33,6 +33,7 @@ public class GoalMapper {
                 .user(goal.getUser())
                 .category(goal.getCategory())
                 .frequency(goal.getFrequency())
+                .status(goal.getStatus())
                 .unitMeasure(goal.getUnitMeasure())
                 .createdAt(goal.getCreatedAt())
                 .isActive(goal.getIsActive())
