@@ -1,5 +1,6 @@
 package br.com.fiap.balanceMe.goal.service;
 
+import br.com.fiap.balanceMe.goal.dto.request.GoalUpdateRequest;
 import br.com.fiap.balanceMe.goal.entity.Goal;
 import br.com.fiap.balanceMe.goal.repositories.GoalsRepository;
 import br.com.fiap.balanceMe.user.entity.User;
@@ -8,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,54 @@ public class GoalService {
     public Goal create(Goal goal) {
         User user = userRepository.getReferenceById(goal.getUser().getId());
         goal.setUser(user);
-        return  repository.save(goal);
+        return repository.save(goal);
+    }
+
+    @Transactional
+    public Optional<Goal> completeGoal(Long goalId) {
+        Optional<Goal> optGoal = repository.findById(goalId);
+        if (optGoal.isPresent()) {
+            Goal goal = optGoal.get();
+            goal.setIsActive(false);
+            goal.setCompletedAt(LocalDateTime.now());
+            repository.save(goal);
+            return Optional.of(goal);
+        }
+        return Optional.empty();
+    }
+
+    @Transactional
+    public Optional<Goal> edit(GoalUpdateRequest request, Long goalId) {
+        Optional<Goal> optGoal = repository.findById(goalId);
+        if(optGoal.isPresent() && optGoal.get().getIsActive().equals(true)) {
+            Goal goal = optGoal.get();
+
+            if(request.category() != null) {
+                goal.setCategory(request.category());
+            }
+
+            if(request.frequency() != null) {
+                goal.setFrequency(request.frequency());
+            }
+
+            if(request.unitMeasure() != null) {
+                goal.setUnitMeasure(request.unitMeasure());
+            }
+
+            if(request.isActive() != null) {
+                goal.setIsActive(request.isActive());
+            }
+
+            if(request.startDate() != null) {
+                goal.setStartDate(request.startDate());
+            }
+
+            if(request.endDate() != null) {
+                goal.setEndDate(request.endDate());
+            }
+            repository.save(goal);
+            return Optional.of(goal);
+        }
+        return Optional.empty();
     }
 }
