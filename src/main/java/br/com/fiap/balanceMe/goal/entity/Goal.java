@@ -35,6 +35,9 @@ public class Goal {
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
 
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @Column(name = "unit_measure", nullable = false)
     private String unitMeasure;
 
