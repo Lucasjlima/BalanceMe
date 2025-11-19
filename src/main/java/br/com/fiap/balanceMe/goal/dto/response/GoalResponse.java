@@ -3,6 +3,7 @@ package br.com.fiap.balanceMe.goal.dto.response;
 import br.com.fiap.balanceMe.goal.entity.Category;
 import br.com.fiap.balanceMe.goal.entity.Frequency;
 import br.com.fiap.balanceMe.goal.entity.Goal;
+import br.com.fiap.balanceMe.goal.entity.Status;
 import br.com.fiap.balanceMe.user.entity.User;
 import lombok.Builder;
 
@@ -19,6 +20,7 @@ public record GoalResponse(
         User user,
         Category category,
         Frequency frequency,
+        Status status,
         String unitMeasure,
         LocalDateTime createdAt,
         Boolean isActive,
