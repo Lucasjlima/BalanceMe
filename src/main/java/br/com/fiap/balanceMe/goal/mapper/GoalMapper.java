@@ -2,6 +2,7 @@ package br.com.fiap.balanceMe.goal.mapper;
 
 import br.com.fiap.balanceMe.goal.dto.request.GoalRequest;
 import br.com.fiap.balanceMe.goal.dto.response.GoalResponse;
+import br.com.fiap.balanceMe.goal.dto.response.GoalUpdateResponse;
 import br.com.fiap.balanceMe.goal.entity.Goal;
 import lombok.experimental.UtilityClass;
 
@@ -34,6 +35,18 @@ public class GoalMapper {
                 .frequency(goal.getFrequency())
                 .unitMeasure(goal.getUnitMeasure())
                 .createdAt(goal.getCreatedAt())
+                .isActive(goal.getIsActive())
+                .startDate(goal.getStartDate())
+                .endDate(goal.getEndDate())
+                .build();
+    }
+
+    public static GoalUpdateResponse toGoalUpdateResponse(Goal goal) {
+        return GoalUpdateResponse
+                .builder()
+                .category(goal.getCategory())
+                .frequency(goal.getFrequency())
+                .unitMeasure(goal.getUnitMeasure())
                 .isActive(goal.getIsActive())
                 .startDate(goal.getStartDate())
                 .endDate(goal.getEndDate())
