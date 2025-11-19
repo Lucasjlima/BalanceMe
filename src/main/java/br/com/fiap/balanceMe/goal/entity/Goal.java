@@ -42,6 +42,10 @@ public class Goal {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @CreationTimestamp
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
+
     @Column(name = "is_active")
     private Boolean isActive;
 
