@@ -2,6 +2,7 @@ package br.com.fiap.balanceMe.user.mapper;
 
 import br.com.fiap.balanceMe.user.dto.request.UserRequest;
 import br.com.fiap.balanceMe.user.dto.response.UserResponse;
+import br.com.fiap.balanceMe.user.dto.response.UserUpdateResponse;
 import br.com.fiap.balanceMe.user.entity.User;
 import lombok.experimental.UtilityClass;
 
@@ -36,5 +37,15 @@ public class UserMapper {
                 .goals(user.getGoals())
                 .build();
 
+    }
+
+    public static UserUpdateResponse toUserUpdateResponse(User user) {
+        return UserUpdateResponse
+                .builder()
+                .username(user.getUsername())
+                .userEmail(user.getUserEmail())
+                .timezone(user.getTimezone())
+                .role(user.getRole())
+                .build();
     }
 }
