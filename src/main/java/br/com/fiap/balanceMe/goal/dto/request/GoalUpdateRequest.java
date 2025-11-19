@@ -2,6 +2,7 @@ package br.com.fiap.balanceMe.goal.dto.request;
 
 import br.com.fiap.balanceMe.goal.entity.Category;
 import br.com.fiap.balanceMe.goal.entity.Frequency;
+import br.com.fiap.balanceMe.goal.entity.Status;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,6 +10,7 @@ import java.time.LocalDate;
 public record GoalUpdateRequest(
         Category category,
         Frequency frequency,
+        Status status,
         String unitMeasure,
         Boolean isActive,
         LocalDate startDate,
