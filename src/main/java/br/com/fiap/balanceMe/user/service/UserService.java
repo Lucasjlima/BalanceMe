@@ -1,6 +1,6 @@
 package br.com.fiap.balanceMe.user.service;
 
-import br.com.fiap.balanceMe.config.SecurityConfig;
+import br.com.fiap.balanceMe.security.service.SecurityConfig;
 import br.com.fiap.balanceMe.user.dto.request.UserUpdateRequest;
 import br.com.fiap.balanceMe.user.entity.User;
 import br.com.fiap.balanceMe.user.repository.UserRepository;
@@ -22,29 +22,23 @@ public class UserService {
         return repository.findAll();
     }
 
-    @Transactional
-    public User create(User user) {
-        user.setIsActive(true);
-        user.setPassword(securityConfig.passwordEncoder().encode(user.getPassword()));
-        return repository.save(user);
-    }
 
     @Transactional
     public Optional<User> edit(UserUpdateRequest request, Long userId) {
         Optional<User> optUser = repository.findById(userId);
-        if(optUser.isPresent()) {
+        if (optUser.isPresent()) {
             User user = optUser.get();
 
-            if(request.username() != null) {
+            if (request.username() != null) {
                 user.setUsername(request.username());
             }
-            if(request.userEmail() != null) {
+            if (request.userEmail() != null) {
                 user.setUserEmail(request.userEmail());
             }
-            if(request.timezone() != null) {
+            if (request.timezone() != null) {
                 user.setTimezone(request.timezone());
             }
-            if(request.role() != null) {
+            if (request.role() != null) {
                 user.setRole(request.role());
             }
             repository.save(user);
