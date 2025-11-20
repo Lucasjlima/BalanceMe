@@ -28,6 +28,20 @@ public class UserMapper {
 
     }
 
+    public static User toAdmin(RegisterRequest request) {
+        return User
+                .builder()
+                .username(request.username().toLowerCase())
+                .userEmail(request.userEmail())
+                .password(request.password())
+                .createdAt(LocalDateTime.now())
+                .timezone(request.timezone())
+                .role(Role.ADMIN)
+                .build();
+
+
+    }
+
 
     public static UserResponse toUserResponse(User user) {
         return UserResponse
