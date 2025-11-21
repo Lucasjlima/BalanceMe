@@ -33,6 +33,11 @@ public class GoalService {
         return repository.save(goal);
     }
 
+    @Transactional(readOnly = true)
+    public List<Goal> findAllGoalsByUserId(Long id) {
+        return repository.findByUserId(id);
+    }
+
     @Transactional
     public Optional<Goal> completeGoal(Long goalId) {
         Optional<Goal> optGoal = repository.findById(goalId);
