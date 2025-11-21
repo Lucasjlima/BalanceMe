@@ -1,5 +1,6 @@
 package br.com.fiap.balanceMe.user.service;
 
+
 import br.com.fiap.balanceMe.security.service.SecurityConfig;
 import br.com.fiap.balanceMe.user.dto.request.UserUpdateRequest;
 import br.com.fiap.balanceMe.user.entity.User;
@@ -46,4 +47,5 @@ public class UserService {
         }
         return Optional.empty();
     }
+
 }

@@ -7,11 +7,15 @@ import br.com.fiap.balanceMe.goal.dto.response.GoalUpdateResponse;
 import br.com.fiap.balanceMe.goal.entity.Goal;
 import br.com.fiap.balanceMe.goal.mapper.GoalMapper;
 import br.com.fiap.balanceMe.goal.service.GoalService;
+import br.com.fiap.balanceMe.user.entity.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +30,17 @@ public class GoalController {
     @GetMapping
     public ResponseEntity<List<GoalResponse>> findAll() {
         return ResponseEntity.ok(service.findAll()
+                .stream()
+                .map(GoalMapper::toGoalResponse)
+                .toList());
+    }
+
+    @GetMapping("user/{id}")
+    public ResponseEntity<List<GoalResponse>> findByUserId(@PathVariable Long id, @AuthenticationPrincipal User currentUser) throws Exception {
+        if(!currentUser.getId().equals(id)) {
+            throw new Exception("Acesso negado: Voce nao pode acessar as metas de outro usuario.");
+        }
+        return ResponseEntity.ok(service.findAllGoalsByUserId(id)
                 .stream()
                 .map(GoalMapper::toGoalResponse)
                 .toList());
