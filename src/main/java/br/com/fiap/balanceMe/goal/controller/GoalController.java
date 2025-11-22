@@ -11,6 +11,8 @@ import br.com.fiap.balanceMe.user.entity.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,6 +30,7 @@ public class GoalController {
     private final GoalService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<GoalResponse>> findAll() {
         return ResponseEntity.ok(service.findAll()
                 .stream()
@@ -46,6 +49,13 @@ public class GoalController {
                 .toList());
     }
 
+    @GetMapping("paged")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Page<GoalResponse> getPaged(Pageable pageable) {
+        return service.pagedGoals(pageable)
+                .map(GoalMapper::toGoalResponse);
+    }
+
     @PostMapping
     public ResponseEntity<GoalResponse> save(@RequestBody @Valid GoalRequest request) {
         Goal newGoal = GoalMapper.toGoal(request);
@@ -54,6 +64,7 @@ public class GoalController {
     }
 
     @PatchMapping("{id}/complete")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEFAULT_USER') or #id == authentication.principal.id")
     public ResponseEntity<Void> completeGoal(@PathVariable Long id) {
         service.completeGoal(id).orElseThrow();
         return ResponseEntity.noContent().build();
