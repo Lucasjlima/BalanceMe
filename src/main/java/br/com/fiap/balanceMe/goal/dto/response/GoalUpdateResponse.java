@@ -6,7 +6,7 @@ import br.com.fiap.balanceMe.goal.entity.Status;
 import lombok.Builder;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Builder
 public record GoalUpdateResponse(
@@ -15,7 +15,7 @@ public record GoalUpdateResponse(
         Status status,
         String unitMeasure,
         Boolean isActive,
-        LocalDate startDate,
-        LocalDate endDate
+        LocalTime startDate,
+        LocalTime endDate
 ) implements Serializable {
 }

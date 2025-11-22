@@ -8,8 +8,8 @@ import br.com.fiap.balanceMe.user.entity.User;
 import lombok.Builder;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * DTO for {@link Goal}
@@ -24,7 +24,7 @@ public record GoalResponse(
         String unitMeasure,
         LocalDateTime createdAt,
         Boolean isActive,
-        LocalDate startDate,
-        LocalDate endDate
+        LocalTime startDate,
+        LocalTime endDate
 ) implements Serializable {
 }

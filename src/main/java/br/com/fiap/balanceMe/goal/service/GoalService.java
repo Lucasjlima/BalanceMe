@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,10 @@ public class GoalService {
         Optional<Goal> optGoal = repository.findById(goalId);
         if (optGoal.isPresent()) {
             Goal goal = optGoal.get();
+            if(goal.getEndDate().isAfter(LocalTime.now())) {
+                goal.setStatus(Status.CANCELLED);
+                goal.setIsActive(false);
+            }
             goal.setIsActive(false);
             goal.setStatus(Status.COMPLETED);
             goal.setCompletedAt(LocalDateTime.now());
@@ -108,7 +113,7 @@ public class GoalService {
             Goal goal = optGoal.get();
             goal.setIsActive(false);
             goal.setStatus(Status.CANCELLED);
-            goal.setEndDate(LocalDateTime.now().toLocalDate());
+            goal.setEndDate(LocalTime.now());
             repository.save(goal);
         }
     }

@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Builder
 @NoArgsConstructor
@@ -53,9 +54,9 @@ public class Goal {
     private Boolean isActive;
 
     @Column(name = "start_date")
-    private LocalDate startDate;
+    private LocalTime startDate;
 
     @Column(name = "end_date")
-    private LocalDate endDate;
+    private LocalTime endDate;
 
 }
