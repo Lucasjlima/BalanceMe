@@ -16,7 +16,6 @@ import java.time.LocalTime;
  * DTO for {@link Goal}
  */
 public record GoalRequest(
-        @NotNull
         User user,
         @NotNull(message = "Informe o tipo de categoria")
         Category category,
@@ -25,7 +24,6 @@ public record GoalRequest(
         @NotBlank(message = "Informe uma unidade de medida")
         String unitMeasure,
         @NotNull
-        @PastOrPresent(message = "O horario de início não pode ser no futuro")
         LocalTime startDate,
         @FutureOrPresent(message = "A data deve ser hoje ou no futuro")
         LocalTime endDate
