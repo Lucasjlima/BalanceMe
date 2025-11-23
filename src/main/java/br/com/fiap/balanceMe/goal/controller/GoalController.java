@@ -55,10 +55,8 @@ public class GoalController {
             @ApiResponse(responseCode = "403", description = "Acesso negado")
     })
     @GetMapping("user/{id}")
-    public ResponseEntity<List<GoalResponse>> findByUserId(@PathVariable Long id, @AuthenticationPrincipal User currentUser) throws Exception {
-        if (!currentUser.getId().equals(id)) {
-            throw new Exception("Acesso negado: Voce nao pode acessar as metas de outro usuario.");
-        }
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
+    public ResponseEntity<List<GoalResponse>> findByUserId(@PathVariable Long id) {
         return ResponseEntity.ok(service.findAllGoalsByUserId(id)
                 .stream()
                 .map(GoalMapper::toGoalResponse)
@@ -83,6 +81,7 @@ public class GoalController {
             @ApiResponse(responseCode = "400", description = "Requisicao invalida")
     })
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or #request.user.id == authentication.principal.id")
     public ResponseEntity<GoalResponse> save(@RequestBody @Valid GoalRequest request) {
         Goal newGoal = GoalMapper.toGoal(request);
         Goal savedGoal = service.create(newGoal);
@@ -96,7 +95,7 @@ public class GoalController {
             @ApiResponse(responseCode = "404", description = "Meta nao encontrada")
     })
     @PatchMapping("{id}/complete")
-    @PreAuthorize("hasAnyRole('ADMIN', 'DEFAULT_USER') or #id == authentication.principal.id")
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<Void> completeGoal(@PathVariable Long id) {
         service.completeGoal(id).orElseThrow();
         return ResponseEntity.noContent().build();
@@ -125,10 +124,8 @@ public class GoalController {
             @ApiResponse(responseCode = "404", description = "Meta nao encontrada")
     })
     @DeleteMapping("{id}/delete")
-    public ResponseEntity<Void> delete(@PathVariable Long id, @AuthenticationPrincipal User currentUser) throws Exception {
-        if (!currentUser.getId().equals(id)) {
-            throw new Exception("Acesso negado: Voce nao pode acessar as metas de outro usuario.");
-        }
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
