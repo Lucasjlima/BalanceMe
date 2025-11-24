@@ -50,10 +50,8 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "Meta nao encontrada")
     })
     @PatchMapping("edit/{id}")
-    public ResponseEntity<UserUpdateResponse> editUser(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest request,@AuthenticationPrincipal User currentUser) throws Exception {
-        if (!currentUser.getId().equals(id)) {
-            throw new Exception("Acesso negado: Voce nao pode acessar as metas de outro usuario.");
-        }
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
+    public ResponseEntity<UserUpdateResponse> editUser(@PathVariable Long id, @RequestBody @Valid UserUpdateRequest request) {
         return service.edit(request, id)
                 .map(user -> ResponseEntity.ok(UserMapper.toUserUpdateResponse(user)))
                 .orElse(ResponseEntity.notFound().build());
