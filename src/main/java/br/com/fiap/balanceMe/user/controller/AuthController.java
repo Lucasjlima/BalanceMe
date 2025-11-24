@@ -32,7 +32,6 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Requisição inválida")
     })
     @PostMapping("/register")
-    @PreAuthorize("hasAnyRole('ADMIN','DEFAULT_USER')")
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(service.register(UserMapper.toUser(request)));
@@ -51,7 +50,6 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "Credenciais inválidas")
     })
     @PostMapping("/login")
-    @PreAuthorize("hasAnyRole('ADMIN','DEFAULT_USER')")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid LoginRequest request) {
         return ResponseEntity.status(HttpStatus.OK).body(service.login(request));
     }
