@@ -4,6 +4,7 @@ import br.com.fiap.balanceMe.goal.dto.request.GoalRequest;
 import br.com.fiap.balanceMe.goal.dto.response.GoalResponse;
 import br.com.fiap.balanceMe.goal.dto.response.GoalUpdateResponse;
 import br.com.fiap.balanceMe.goal.entity.Goal;
+import br.com.fiap.balanceMe.user.entity.User;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
