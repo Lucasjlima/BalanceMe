@@ -3,11 +3,15 @@ package br.com.fiap.balanceMe.goal.dto.request;
 import br.com.fiap.balanceMe.goal.entity.Category;
 import br.com.fiap.balanceMe.goal.entity.Frequency;
 import br.com.fiap.balanceMe.goal.entity.Status;
-import jakarta.validation.constraints.FutureOrPresent;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 
 import java.io.Serializable;
 import java.time.LocalTime;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record GoalUpdateRequest(
         Category category,
         Frequency frequency,
@@ -15,7 +19,6 @@ public record GoalUpdateRequest(
         String unitMeasure,
         Boolean isActive,
         LocalTime startDate,
-        @FutureOrPresent(message = "A data deve ser hoje ou no futuro")
         LocalTime endDate
 ) implements Serializable {
 }
