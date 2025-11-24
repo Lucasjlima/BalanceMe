@@ -34,12 +34,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/docs/**",
                                 "/api-docs/**",
                                 "/webjars/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/user/edit/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/goal/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
