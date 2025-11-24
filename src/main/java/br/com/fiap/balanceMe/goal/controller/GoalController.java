@@ -7,7 +7,6 @@ import br.com.fiap.balanceMe.goal.dto.response.GoalUpdateResponse;
 import br.com.fiap.balanceMe.goal.entity.Goal;
 import br.com.fiap.balanceMe.goal.mapper.GoalMapper;
 import br.com.fiap.balanceMe.goal.service.GoalService;
-import br.com.fiap.balanceMe.user.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,12 +15,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springdoc.core.converters.models.PageableAsQueryParam;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,17 +64,23 @@ public class GoalController {
                 .toList());
     }
 
-    @Operation(summary = "Busca metas paginadas, apenas para administradores")
+    @Operation(
+            summary = "Busca metas paginadas, apenas para administradores"
+    )
+    @PageableAsQueryParam
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Sucesso"),
             @ApiResponse(responseCode = "403", description = "Acesso negado")
     })
     @GetMapping("paged")
     @PreAuthorize("hasRole('ADMIN')")
-    public Page<GoalResponse> getPaged(Pageable pageable) {
+    public Page<GoalResponse> getPaged(
+            @ParameterObject @PageableDefault(sort = "id", size = 10) Pageable pageable
+    ) {
         return service.pagedGoals(pageable)
                 .map(GoalMapper::toGoalResponse);
     }
+
 
     @Operation(summary = "Cria uma nova meta")
     @ApiResponses({
@@ -107,12 +114,9 @@ public class GoalController {
             @ApiResponse(responseCode = "404", description = "Meta nao encontrada")
     })
     @PatchMapping("{id}/edit")
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<GoalUpdateResponse> edit(@PathVariable Long id,
-                                                   @RequestBody @Valid GoalUpdateRequest request,
-                                                   @AuthenticationPrincipal User currentUser) throws Exception {
-        if (!currentUser.getId().equals(id)) {
-            throw new Exception("Acesso negado: Voce nao pode acessar as metas de outro usuario.");
-        }
+                                                   @RequestBody @Valid GoalUpdateRequest request) {
         return service.edit(request, id)
                 .map(goal -> ResponseEntity.ok(GoalMapper.toGoalUpdateResponse(goal)))
                 .orElse(ResponseEntity.notFound().build());
